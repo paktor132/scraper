@@ -37,7 +37,7 @@ def scrape_func(website, lang, address, COLL, db_auth, db_user, db_pass):
                 Password for MongoDB authentication.
     """
     #Setup the database
-    connection = MongoClient()
+    connection = MongoClient('mongodb://scraper-mongodb-server-instance:27017,scraper-mongodb-server-instance-secondary:27017/?replicaSet=rs0')
     if db_auth:
         connection[db_auth].authenticate(db_user, db_pass)
     db = connection.event_scrape
