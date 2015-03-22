@@ -6,7 +6,7 @@ import pattern.web
 import pages_scrape
 import mongo_connection
 from goose import Goose
-from pymongo import MongoClient
+from pymongo import MongoClient, ReadPreference
 from ConfigParser import ConfigParser
 from multiprocessing import Pool
 
@@ -37,7 +37,7 @@ def scrape_func(website, lang, address, COLL, db_auth, db_user, db_pass):
                 Password for MongoDB authentication.
     """
     #Setup the database
-    connection = MongoClient(['scraper-mongodb-server-instance:27017','scraper-mongodb-server-instance-secondary:27017'],replicaSet='rs0',readPreference='secondaryPreferred')
+    connection = MongoClient(['scraper-mongodb-server-instance-1:27017','scraper-mongodb-server-instance-2:27017','scraper-mongodb-server-instance-3:27017','scraper-mongodb-server-instance-4:27017'],replicaSet='rs0',readPreference=ReadPreference.NEAREST)
     if db_auth:
         connection[db_auth].authenticate(db_user, db_pass)
     db = connection.event_scrape
